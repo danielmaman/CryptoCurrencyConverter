@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.example.daniel.cryptocurrencyconverter.R.layout.content_main
 import com.example.daniel.cryptocurrencyconverter.presentation.MainController
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
+import org.joda.money.CurrencyUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val list : List<String> = listOf("")
+        CurrencyUnit.registerCurrency("BTC",-1,8,list)
+
         router = Conductor.attachRouter(this, container_main as ViewGroup, savedInstanceState)
 
-//        val container : ViewGroup = R.layout.content_main
-//        router = Conductor.attachRouter(this, container, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(MainController()))
         }
