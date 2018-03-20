@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="available_currencies">
+        <item>USD</item>
+        <item>GBP</item>
+        <item>EUR</item>
+    </string-array>
+    <!--BOTH ARRAYS SHOULD CONTAIN SAME AMOUNT OFF ITEMS-->
+    <string-array name="available_currencies_flags">
+        <item>ic_flag_usd</item>
+        <item>ic_flag_gbp</item>
+        <item>ic_flag_eur</item>
+    </string-array>
+</resources>

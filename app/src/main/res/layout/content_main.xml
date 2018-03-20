@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/colorActivityBackground"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    tools:showIn="@layout/activity_main">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/balanceRecyclerView"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <View
+        android:id="@+id/sellRectangleView"
+        android:layout_width="match_parent"
+
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/medium_margin"
+
+        android:layout_marginTop="8dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceRecyclerView" />
+
+    <Spinner
+        android:id="@+id/sellSelectCurrencySpinner"
+
+        android:layout_width="@dimen/currency_spinner_width"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/sellRectangleView"
+        app:layout_constraintEnd_toEndOf="@+id/sellRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/sellRectangleView" />
+
+    <TextView
+        android:id="@+id/sellLabelTextView"
+        android:text="@string/sell_text"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/big_margin"
+
+        app:layout_constraintEnd_toStartOf="@+id/sellSelectCurrencySpinner"
+        app:layout_constraintStart_toStartOf="@+id/sellRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/sellRectangleView" />
+
+    <TextView
+        android:id="@+id/sellSymbolTextView"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/big_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+
+        app:layout_constraintBottom_toBottomOf="@+id/sellAmountEditText"
+        app:layout_constraintStart_toStartOf="@+id/sellRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/sellAmountEditText" />
+
+    <EditText
+        android:id="@+id/sellAmountEditText"
+
+        android:inputType="numberDecimal"
+        android:hint="@string/amount_text"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+
+        app:layout_constraintBottom_toBottomOf="@+id/sellRectangleView"
+        app:layout_constraintEnd_toStartOf="@+id/sellSelectCurrencySpinner"
+        app:layout_constraintStart_toEndOf="@+id/sellSymbolTextView"
+        app:layout_constraintTop_toBottomOf="@+id/sellLabelTextView" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/switchFloatingActionButton"
+
+        android:src="@drawable/ic_swap_calls_white_24dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellRectangleView"/>
+
+    <View
+        android:id="@+id/receiveRectangleView"
+        android:background="@color/colorWhite"
+
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+        android:layout_margin="@dimen/medium_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchFloatingActionButton" />
+
+    <Spinner
+        android:id="@+id/receiveSelectCurrencySpinner"
+
+        android:layout_width="@dimen/currency_spinner_width"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/receiveRectangleView"
+        app:layout_constraintEnd_toEndOf="@+id/receiveRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/receiveRectangleView" />
+
+    <TextView
+        android:id="@+id/receiveLabelTextView"
+        android:text="@string/receive_text"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/big_margin"
+
+        app:layout_constraintEnd_toStartOf="@+id/receiveSelectCurrencySpinner"
+        app:layout_constraintStart_toStartOf="@+id/receiveRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/receiveRectangleView" />
+
+    <TextView
+        android:id="@+id/receiveAmountTextView"
+
+        android:hint="@string/amount_text"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+
+        app:layout_constraintBottom_toBottomOf="@+id/receiveRectangleView"
+        app:layout_constraintEnd_toStartOf="@+id/receiveSelectCurrencySpinner"
+        app:layout_constraintStart_toEndOf="@+id/receiveSymbolTextView"
+        app:layout_constraintTop_toBottomOf="@+id/receiveLabelTextView" />
+
+    <TextView
+        android:id="@+id/receiveSymbolTextView"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/big_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+
+        app:layout_constraintBottom_toBottomOf="@+id/receiveAmountTextView"
+        app:layout_constraintStart_toStartOf="@+id/receiveRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/receiveAmountTextView" />
+
+    <TextView
+        android:id="@+id/commissionTextView"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/medium_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/receiveRectangleView" />
+
+    <Button
+        android:id="@+id/convertButton"
+        android:text="@string/convert_button_text"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/medium_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commissionTextView" />
+
+    <ListView
+        android:id="@+id/commissionListView"
+
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        android:listSelector="@android:color/transparent"
+
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/big_margin"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/convertButton" />
+</android.support.constraint.ConstraintLayout>
