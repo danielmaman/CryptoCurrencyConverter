@@ -10,6 +10,7 @@ import com.example.daniel.cryptocurrencyconverter.presentation.MainController
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.money.CurrencyUnit
 
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var router : Router
@@ -21,10 +22,21 @@ class MainActivity : AppCompatActivity() {
         val list : List<String> = listOf("")
         CurrencyUnit.registerCurrency("BTC",-1,8,list)
 
+
+      //  (applicationContext as BaseApplication).mApplicationComponent.inject(this)
+
+//        activityComponent = DaggerActivityComponent.builder()
+//                .mainActivityModule(MainActivityModule(this))
+//                .build()
+//        activityComponent.inject(this)
+
+
+
         router = Conductor.attachRouter(this, container_main as ViewGroup, savedInstanceState)
 
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(MainController()))
         }
+
     }
 }

@@ -3,8 +3,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
+    kapt {
+        generateStubs = true
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.daniel.cryptocurrencyconverter"
@@ -42,6 +46,7 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.6.1'
 
     compile 'com.google.dagger:dagger:2.14.1'
+    kapt 'com.google.dagger:dagger-compiler:2.14.1'
 
     compile 'org.joda:joda-money:0.12'
 

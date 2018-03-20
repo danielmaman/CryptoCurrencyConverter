@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter.mappers
+package com.example.daniel.cryptocurrencyconverter.common.mappers
 
 import com.example.daniel.cryptocurrencyconverter.presentation.models.DisplayableCurrency
 import org.joda.money.Money
