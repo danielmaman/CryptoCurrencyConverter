@@ -1,7 +1,16 @@
-package com.example.daniel.cryptocurrencyconverter.data
+package com.example.daniel.cryptocurrencyconverter.data.api
 
-/**
- * Created by Daniel on 3/20/2018.
- */
-class BitcoinExchangeApiClient {
+import io.reactivex.Observable
+import com.example.daniel.cryptocurrencyconverter.data.BitcoinExchangeRateRaw
+import javax.inject.Inject
+import javax.inject.Singleton
+
+
+@Singleton
+class BitcoinExchangeApiClient @Inject constructor(bitcoinRateService: BitcoinRateService) {//TODO inject
+    var mBitcoinRateService = bitcoinRateService
+
+    fun fetch(): Observable<BitcoinExchangeRateRaw>{
+        return mBitcoinRateService.getBitcoinRate()
+    }
 }

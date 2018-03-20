@@ -1,12 +1,10 @@
-package com.example.daniel.cryptocurrencyconverter.data
+package com.example.daniel.cryptocurrencyconverter.data.api
 
-import io.reactivex.Single
+import com.example.daniel.cryptocurrencyconverter.data.BitcoinExchangeRateRaw
+import io.reactivex.Observable
 import retrofit2.http.GET
 
-/**
- * Created by Daniel on 3/20/2018.
- */
 interface BitcoinRateService {
     @GET("v1/bpi/currentprice.json")
-    fun getCreditDrafts(): Single<BitcoinExchangeRateRaw>
+    fun getBitcoinRate(): Observable<BitcoinExchangeRateRaw>
 }
