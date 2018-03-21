@@ -6,6 +6,7 @@ import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
@@ -22,4 +23,9 @@ class AppModule {
         return mBaseApplication
     }
 
+    @Provides
+    @Singleton
+    fun providesCompositeDisposible(): CompositeDisposable{
+        return CompositeDisposable()
+    }
 }

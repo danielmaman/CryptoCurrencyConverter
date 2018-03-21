@@ -13,5 +13,6 @@ import javax.inject.Singleton
 interface AppComponent{
     fun inject(baseApplication: BaseApplication)
     fun inject(mainActivity: MainActivity)
+    fun inject(bitcoinRateRepository: BitcoinRateRepository)
     fun inject(mainController: MainController)
 }

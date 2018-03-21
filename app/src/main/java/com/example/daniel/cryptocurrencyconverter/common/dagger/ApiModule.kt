@@ -7,6 +7,7 @@ import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinRateService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -37,7 +38,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun providesRepository(apiClient : BitcoinExchangeApiClient,draftMapper : BitcoinRateDraftMapper): BitcoinRateRepository {
-        return BitcoinRateRepository(apiClient,draftMapper)
+    fun providesRepository(apiClient : BitcoinExchangeApiClient,draftMapper : BitcoinRateDraftMapper, compositeDisposable: CompositeDisposable): BitcoinRateRepository {
+        return BitcoinRateRepository(apiClient,draftMapper,compositeDisposable)
     }
 }
