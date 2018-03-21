@@ -1,36 +1,35 @@
 package com.example.daniel.cryptocurrencyconverter.data
 
-import android.util.Log
-import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
-import com.example.daniel.cryptocurrencyconverter.common.dagger.DaggerAppComponent
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
-import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 import timber.log.Timber
-import javax.inject.Inject
+
+class BitcoinRateRepository(apiClient : BitcoinExchangeApiClient,draftMapper : BitcoinRateDraftMapper) {
+
+    var mApiClient = apiClient
+    var mDraftMapper = draftMapper
+
+    var isNewlyFetched: Boolean = false// TODO if false fetch else get from Realm
 
 
-class BitcoinRateRepository constructor(apiClient: BitcoinExchangeApiClient, bitcoinRateDraftMapper: BitcoinRateDraftMapper) {
-    val mApiClient = apiClient
-    val mDraftMapper = bitcoinRateDraftMapper
+    fun fetch(): Observable<BitcoinExchangeRateRaw>{//TODO save raw object to cache and check if 1 minute elapsed
+        return mApiClient.fetch() //TODO remove
+    }
 
-    var isNewlyFetched: Boolean = false
-
-    fun fetch(){//TODO save raw object to cache and check if 1 minute elapsed
+    fun fetchFromApi(): Observable<BitcoinExchangeRateRaw>{
         val rawResult = mApiClient.fetch()
         rawResult.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io()).subscribe(object:Observer<BitcoinExchangeRateRaw>{
                     override fun onComplete() {
-                        Timber.e("onCompltet")
+                        Timber.e("onComplete")
                     }
 
                     override fun onSubscribe(d: Disposable) {
-                        Timber.e("onSubsrice")
+                        Timber.e("onSubscribe")
                     }
 
                     override fun onNext(t: BitcoinExchangeRateRaw) {
@@ -41,5 +40,11 @@ class BitcoinRateRepository constructor(apiClient: BitcoinExchangeApiClient, bit
                         Timber.e("onError")
                     }
                 })
+        return rawResult
+        //TODO change value to true and init timer to chagne to false after a minute
     }
+
+//    fun fetchFromDB(): Observable<BitcoinExchangeRateRaw>{
+//
+//    }
 }

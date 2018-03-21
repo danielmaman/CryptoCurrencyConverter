@@ -20,10 +20,8 @@ class  MainController : BaseController() , MainViewDelegate{
     lateinit var view: MainView
 
     @Inject
-    lateinit var apiClient: BitcoinExchangeApiClient
+    lateinit var repo: BitcoinRateRepository
 
-    @Inject
-    lateinit var bitcoinRateDraftMapper: BitcoinRateDraftMapper
 
     override fun onCreateControllerView(inflater: LayoutInflater, container: ViewGroup): View {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -37,8 +35,6 @@ class  MainController : BaseController() , MainViewDelegate{
         view.delegate = this
 
         view.attachSpinnersAdapter(getCurrencySpinnersAdapter())
-
-        var repo= BitcoinRateRepository(apiClient,bitcoinRateDraftMapper)//TODO
 
         repo.fetch()
 

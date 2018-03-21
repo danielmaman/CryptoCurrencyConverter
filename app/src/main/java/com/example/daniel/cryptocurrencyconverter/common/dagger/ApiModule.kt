@@ -1,6 +1,7 @@
 package com.example.daniel.cryptocurrencyconverter.common.dagger
 
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateDraftMapper
+import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinRateService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -32,5 +33,11 @@ class ApiModule {
     @Provides
     fun providesDraftMapper(): BitcoinRateDraftMapper{
         return BitcoinRateDraftMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun providesRepository(apiClient : BitcoinExchangeApiClient,draftMapper : BitcoinRateDraftMapper): BitcoinRateRepository {
+        return BitcoinRateRepository(apiClient,draftMapper)
     }
 }

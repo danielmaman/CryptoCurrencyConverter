@@ -18,6 +18,7 @@ import javax.inject.Inject
 interface MainViewDelegate {
     fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit)
 }
+
 class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,attrs){
      var delegate: MainViewDelegate?=null
      var view: View = LayoutInflater.from(context).inflate(R.layout.controller_main,this)

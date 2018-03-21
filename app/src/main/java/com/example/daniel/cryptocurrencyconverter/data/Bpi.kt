@@ -1,5 +1,5 @@
 package com.example.daniel.cryptocurrencyconverter.data
 
-data class Bpi(val EUR: EUR,
-               val GBP: EUR,
-               val USD: EUR)
+data class Bpi(val EUR: CurrencyUnitRaw,
+               val GBP: CurrencyUnitRaw,
+               val USD: CurrencyUnitRaw)
