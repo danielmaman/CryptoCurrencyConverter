@@ -1,5 +1,7 @@
 package com.example.daniel.cryptocurrencyconverter.data
 
-data class Time(val updateduk: String = "",
-                val updatedISO: String = "",
-                val updated: String = "")
+import io.realm.RealmObject
+
+open class Time(public open var updateduk: String = "",
+                public open var updatedISO: String = "",
+                public open var updated: String = ""): RealmObject()

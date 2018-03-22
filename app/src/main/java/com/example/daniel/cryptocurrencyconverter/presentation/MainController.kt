@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.R.id.convertButton
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
@@ -13,14 +14,20 @@ import com.example.daniel.cryptocurrencyconverter.base.BaseController
 import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
 import com.example.daniel.cryptocurrencyconverter.common.dagger.AppModule
 import com.example.daniel.cryptocurrencyconverter.common.dagger.DaggerAppComponent
+import com.example.daniel.cryptocurrencyconverter.data.BitcoinExchangeRateRaw
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateDraftMapper
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
+import timber.log.Timber
 import javax.inject.Inject
 
 class  MainController : BaseController() , MainViewDelegate{
@@ -47,8 +54,34 @@ class  MainController : BaseController() , MainViewDelegate{
 
 
         var button = view.findViewById<Button>(R.id.convertButton)//TODO move to View layer
+
         button.setOnClickListener{view ->
-            var obs = repo.fetch()
+                var obs = repo.fetch()
+                obs.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(object : Observer<BitcoinExchangeRateRaw>{
+                            override fun onComplete() {
+                               // Toast.makeText(activity,"onComplete",Toast.LENGTH_LONG).show()
+                                Timber.e("onComplete")
+                            }
+
+                            override fun onSubscribe(d: Disposable) {
+                                repo.fetchDatabseFlowable()
+                              //  Toast.makeText(activity,"onSubscribe",Toast.LENGTH_LONG).show()
+                               Timber.e("onSubscribe")
+                            }
+
+                            override fun onNext(t: BitcoinExchangeRateRaw) {
+                              // Toast.makeText(activity,"OnNext",Toast.LENGTH_LONG).show()
+                                Timber.e("onNext")
+                            }
+
+                            override fun onError(e: Throwable) {
+                             //  Toast.makeText(activity,"onError",Toast.LENGTH_LONG).show()
+                                Timber.e("onError")
+                            }
+                        })
+
         }
 
         return view

@@ -1,7 +1,11 @@
 package com.example.daniel.cryptocurrencyconverter.data.api
 
-import io.reactivex.Observable
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinExchangeRateRaw
+import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,4 +17,6 @@ class BitcoinExchangeApiClient @Inject constructor(bitcoinRateService: BitcoinRa
     fun fetch(): Observable<BitcoinExchangeRateRaw>{
         return mBitcoinRateService.getBitcoinRate()
     }
+
+
 }
