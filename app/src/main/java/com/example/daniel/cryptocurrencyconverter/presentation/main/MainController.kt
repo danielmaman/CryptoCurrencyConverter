@@ -1,36 +1,30 @@
-package com.example.daniel.cryptocurrencyconverter.presentation
+package com.example.daniel.cryptocurrencyconverter.presentation.main
 
 import android.support.v7.app.AppCompatDelegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import com.example.daniel.cryptocurrencyconverter.R
-import com.example.daniel.cryptocurrencyconverter.R.id.convertButton
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.base.BaseController
 import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
 import com.example.daniel.cryptocurrencyconverter.common.dagger.AppModule
 import com.example.daniel.cryptocurrencyconverter.common.dagger.DaggerAppComponent
-import com.example.daniel.cryptocurrencyconverter.data.BitcoinExchangeRateRaw
-import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateDraftMapper
+import com.example.daniel.cryptocurrencyconverter.data.models.BitcoinExchangeRateRaw
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
-import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
-import io.reactivex.Observer
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.observers.DisposableObserver
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
 import timber.log.Timber
 import javax.inject.Inject
 
-class  MainController : BaseController() , MainViewDelegate{
+class  MainController : BaseController() , MainViewDelegate {
     lateinit var view: MainView
 
     @Inject
@@ -50,29 +44,26 @@ class  MainController : BaseController() , MainViewDelegate{
         view = MainView(activity!!, null)
         view.delegate = this
 
-        view.attachSpinnersAdapter(getCurrencySpinnersAdapter())
+        view.attachSpinnersAdapter(getCurrencySpinnersAdapter())//TODO MAKE VIEW ON CREATE
+        view.attachListeners()
 
+        return view
+    }
 
-        var button = view.findViewById<Button>(R.id.convertButton)//TODO move to View layer
+    override fun onRefreshTapped() {
 
-        button.setOnClickListener{view ->
-                var obs = repo.fetch()
-                obs.observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(object : Observer<BitcoinExchangeRateRaw>{
+                var obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()
+                compositeDisposable.add(
+                obs.subscribeWith(object : DisposableObserver<BitcoinExchangeRateRaw>(){
                             override fun onComplete() {
                                // Toast.makeText(activity,"onComplete",Toast.LENGTH_LONG).show()
                                 Timber.e("onComplete")
                             }
 
-                            override fun onSubscribe(d: Disposable) {
-                                repo.fetchDatabseFlowable()
-                              //  Toast.makeText(activity,"onSubscribe",Toast.LENGTH_LONG).show()
-                               Timber.e("onSubscribe")
-                            }
-
                             override fun onNext(t: BitcoinExchangeRateRaw) {
                               // Toast.makeText(activity,"OnNext",Toast.LENGTH_LONG).show()
+
+                                Toast.makeText(activity,"timespawn"+t.timestamp, Toast.LENGTH_LONG).show()
                                 Timber.e("onNext")
                             }
 
@@ -80,14 +71,8 @@ class  MainController : BaseController() , MainViewDelegate{
                              //  Toast.makeText(activity,"onError",Toast.LENGTH_LONG).show()
                                 Timber.e("onError")
                             }
-                        })
-
-        }
-
-        return view
+                        }))
     }
-
-
 
     override fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

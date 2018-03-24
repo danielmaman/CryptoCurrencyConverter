@@ -1,22 +1,20 @@
-package com.example.daniel.cryptocurrencyconverter.presentation
+package com.example.daniel.cryptocurrencyconverter.presentation.main
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.Spinner
-import com.example.daniel.cryptocurrencyconverter.MainActivity
 import com.example.daniel.cryptocurrencyconverter.R
-import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
-import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
-import javax.inject.Inject
 
 interface MainViewDelegate {
     fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit)
+    fun onRefreshTapped()
 }
 
 class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,attrs){
@@ -30,4 +28,10 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
         buySpinner?.adapter = adapter
     }
 
+    fun attachListeners(){
+        var button = view.findViewById<Button>(R.id.convertButton)
+        button.setOnClickListener{
+            delegate?.onRefreshTapped()
+        }
+    }
 }

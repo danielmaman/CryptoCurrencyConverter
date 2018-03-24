@@ -4,4 +4,6 @@
     <dimen name="medium_margin">8dp</dimen>
     <dimen name="big_margin">16dp</dimen>
     <dimen name="currency_spinner_width">150dp</dimen>
+    <dimen name="flag_height">34dp</dimen>
+    <dimen name="flag_width">50dp</dimen>
 </resources>

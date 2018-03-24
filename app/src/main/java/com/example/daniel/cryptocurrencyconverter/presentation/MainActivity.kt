@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter
+package com.example.daniel.cryptocurrencyconverter.presentation
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.example.daniel.cryptocurrencyconverter.presentation.MainController
+import com.example.daniel.cryptocurrencyconverter.R
+import com.example.daniel.cryptocurrencyconverter.presentation.main.MainController
 import kotlinx.android.synthetic.main.activity_main.*
 import org.joda.money.CurrencyUnit
 

@@ -20,6 +20,7 @@ class BaseApplication : Application() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .build()
+        Realm.deleteRealm(config)
         Realm.setDefaultConfiguration(config)
 
         mApplicationComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()

@@ -1,13 +1,11 @@
 package com.example.daniel.cryptocurrencyconverter.common.dagger
 
-import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateDraftMapper
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinRateService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
-import io.reactivex.disposables.CompositeDisposable
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -26,19 +24,15 @@ class ApiModule {
                 .build().create<BitcoinRateService>(BitcoinRateService::class.java)
     }
 
+    @Singleton
+    @Provides
     fun provideApiClient(bitcoinRateService: BitcoinRateService): BitcoinExchangeApiClient {
         return BitcoinExchangeApiClient(bitcoinRateService)
     }
 
-    @Singleton
-    @Provides
-    fun providesDraftMapper(): BitcoinRateDraftMapper{
-        return BitcoinRateDraftMapper()
-    }
-
     @Provides
     @Singleton
-    fun providesRepository(apiClient : BitcoinExchangeApiClient,draftMapper : BitcoinRateDraftMapper, compositeDisposable: CompositeDisposable): BitcoinRateRepository {
-        return BitcoinRateRepository(apiClient,draftMapper,compositeDisposable)
+    fun providesRepository(apiClient : BitcoinExchangeApiClient): BitcoinRateRepository {
+        return BitcoinRateRepository(apiClient)
     }
 }

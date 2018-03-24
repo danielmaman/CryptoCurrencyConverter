@@ -12,7 +12,6 @@ import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerImageView
 import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerTextView
 
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
-import kotlinx.android.synthetic.main.currency_spinner_items.*
 
 /**
  * Created by Daniel on 3/20/2018.

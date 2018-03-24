@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter.data
+package com.example.daniel.cryptocurrencyconverter.data.models
 
 import io.realm.RealmObject
 

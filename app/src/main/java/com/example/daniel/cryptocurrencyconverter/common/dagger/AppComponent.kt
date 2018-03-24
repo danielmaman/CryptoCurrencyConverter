@@ -1,10 +1,9 @@
 package com.example.daniel.cryptocurrencyconverter.common.dagger
 
-import com.example.daniel.cryptocurrencyconverter.MainActivity
+import com.example.daniel.cryptocurrencyconverter.presentation.MainActivity
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.data.BitcoinRateRepository
-import com.example.daniel.cryptocurrencyconverter.presentation.MainController
-import com.example.daniel.cryptocurrencyconverter.presentation.MainView
+import com.example.daniel.cryptocurrencyconverter.presentation.main.MainController
 import dagger.Component
 import javax.inject.Singleton
 
