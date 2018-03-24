@@ -8,13 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
+import com.example.daniel.cryptocurrencyconverter.presentation.models.DisplayableCurrency
 import kotlinx.android.synthetic.main.balance_recyclerview_items.view.*
 import org.joda.money.Money
 
 /**
  * Created by Daniel on 3/23/2018.
  */
-class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<Money>, availableCurrency: AvailableCurrency)
+class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<DisplayableCurrency>, availableCurrency: AvailableCurrency)
                                         :RecyclerView.Adapter<BitcoinRatesRecyclerViewAdapter.BitcoinRatesViewHolder>(){
     val mBitcoinRates = bitcoinRates
     private val mAvailableCurrency = availableCurrency
@@ -29,7 +30,7 @@ class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<Mone
     }
 
     override fun onBindViewHolder(holder: BitcoinRatesViewHolder, position: Int) {
-        holder.textView.setText(mBitcoinRates[position].amount.toString() +mBitcoinRates[position].currencyUnit.code.toString())//TODO different type not Money
+        holder.textView.setText(mBitcoinRates[position].amount +mBitcoinRates[position].currencyCode)//TODO different type not Money
         holder.imageView.setImageResource(mAvailableCurrency.flags[position])
     }
 
