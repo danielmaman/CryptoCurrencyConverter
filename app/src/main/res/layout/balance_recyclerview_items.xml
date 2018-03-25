@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ratesImageView"
+
+            android:layout_width="@dimen/flag_width"
+            android:layout_height="@dimen/flag_height"
+
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_gravity="center_vertical"
+
+            android:background="@drawable/flag_border"/>
+        <TextView
+            android:id="@+id/ratesTextView"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="start"
+
+            android:layout_marginStart="50dp"
+            android:padding="@dimen/big_margin" />
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>
