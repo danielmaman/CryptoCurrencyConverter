@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
@@ -18,18 +19,17 @@ import org.joda.money.CurrencyUnit
 
 interface MainViewDelegate {
     fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit)
-    fun onRefreshTapped()
 }
 
 class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,attrs){
      var delegate: MainViewDelegate?=null
      var view: View = LayoutInflater.from(context).inflate(R.layout.controller_main,this)
 
-    fun attachSpinnersAdapter(adapter: CurrencySpinnerAdapter){
+    fun attachSpinnersAdapter(sellAdapter: CurrencySpinnerAdapter, receiveAdapter: CurrencySpinnerAdapter){
         val sellSpinner = view.findViewById<Spinner>(R.id.sellSelectCurrencySpinner)
-        val buySpinner = view.findViewById<Spinner>(R.id.buySelectCurrencySpinner)
-        sellSpinner.adapter = adapter
-        buySpinner.adapter = adapter
+        val receiveSpinner = view.findViewById<Spinner>(R.id.receiveSelectCurrencySpinner)
+        sellSpinner.adapter = sellAdapter
+        receiveSpinner.adapter = receiveAdapter
     }
 
     fun attachRecyclerViewAdapter(adapter: BitcoinRatesRecyclerViewAdapter){
@@ -42,17 +42,34 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
     fun attachListeners(){
         val button = view.findViewById<Button>(R.id.convertButton)
         button.setOnClickListener{
-            delegate?.onRefreshTapped()
+            delegate?.onExchangeDataChanged( getSellMoney(), getReceiveCurrencyUnit())
         }
     }
 
     fun updateViewAfterRatesRefresh(chartName: String, timeUpdated: String ){
-        val chartsNameTextView = view.findViewById<TextView>(R.id.chartNameTextView)//TODO remove all view by id
-        val updatedsTextView = view.findViewById<TextView>(R.id.updatedTextView)
+        val chartNameTextView = view.findViewById<TextView>(R.id.chartNameTextView)//TODO remove all view by id
+        val updatedTextView = view.findViewById<TextView>(R.id.updatedTextView)
 
-        chartsNameTextView.text = chartName
-        updatedsTextView.text = timeUpdated
+        chartNameTextView.text = chartName
+        updatedTextView.text = timeUpdated
 
     }
 
+    fun updateExchangeResultTextView(amount: String){
+        val receiveAmountTextView = view.findViewById<TextView>(R.id.receiveAmountTextView)
+        receiveAmountTextView.text = amount
+    }
+
+    private fun getSellMoney(): BigMoney{
+        val sellSpinner = view.findViewById<Spinner>(R.id.sellSelectCurrencySpinner)
+        val sellEditView = view.findViewById<EditText>(R.id.sellAmountEditText)
+        val sellCurrency: String = sellSpinner.adapter.getItem(sellSpinner.selectedItemPosition).toString()
+        return BigMoney.parse(sellCurrency +" "+ sellEditView.text )
+    }
+
+    private fun getReceiveCurrencyUnit(): CurrencyUnit{
+        val receiveSpinner = view.findViewById<Spinner>(R.id.receiveSelectCurrencySpinner)
+        val receiveCurrency: String = receiveSpinner.adapter.getItem(receiveSpinner.selectedItemPosition).toString()
+        return CurrencyUnit.of(receiveCurrency)
+    }
 }

@@ -1,13 +1,9 @@
 package com.example.daniel.cryptocurrencyconverter.presentation.main
 
 import android.support.v7.app.AppCompatDelegate
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
-import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.base.BaseController
 import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
@@ -38,6 +34,8 @@ class  MainController : BaseController() , MainViewDelegate {
     @Inject
     lateinit var compositeDisposable: CompositeDisposable
 
+    lateinit var lastBitcoinExchangeRate: BitcoinExchangeRateRaw
+
     override fun onCreateControllerView(inflater: LayoutInflater, container: ViewGroup): View {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
@@ -49,21 +47,17 @@ class  MainController : BaseController() , MainViewDelegate {
         view = MainView(activity!!, null)
         view.delegate = this
 
-        view.attachSpinnersAdapter(getCurrencySpinnersAdapter())//TODO MAKE VIEW ON CREATE
+        view.attachSpinnersAdapter(getCurrencySpinnerAdapter(), getCurrencySpinnerAdapter(true))
         view.attachListeners()
 
-        requestRates()
+        refreshRates()
 
         return view
     }
 
-    override fun onRefreshTapped() {
-        requestRates()
-    }
-
-    fun requestRates(){
+    fun refreshRates(){
         val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection and refactor to kotlin way
-        var obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()//TODO loading indicator
+        val obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()//TODO loading indicator
         compositeDisposable.add(
                 obs.subscribeWith(object : DisposableObserver<BitcoinExchangeRateRaw>(){
                     override fun onComplete() {
@@ -72,8 +66,8 @@ class  MainController : BaseController() , MainViewDelegate {
                     }
 
                     override fun onNext(t: BitcoinExchangeRateRaw) {
-
-                        var adapter = BitcoinRatesRecyclerViewAdapter(DisplayableItemMapper.mapRawItem(t),availableCurrencyUnit)
+                        lastBitcoinExchangeRate= t
+                        val adapter = BitcoinRatesRecyclerViewAdapter(DisplayableItemMapper.mapRawItem(t),availableCurrencyUnit)
                         view.attachRecyclerViewAdapter(adapter)
 
                         view.updateViewAfterRatesRefresh(t.chartName, getLocalTimeFromUTC(t.time?.updated))
@@ -100,12 +94,45 @@ class  MainController : BaseController() , MainViewDelegate {
         return ""
     }
 
-    override fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit) {//TODO change for easier currency extendability kad reiktu pakeisti tik arrays
+        var exchangeRate = 0F
+        var amount =""
+        try {
+            if (toCurrency.code == "BTC"){
+
+                when(sell.currencyUnit.code){
+                    "EUR" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.EUR!!.rate_float
+
+                    "USD" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.USD!!.rate_float
+
+                    "GBP" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.GBP!!.rate_float
+                }
+                val temp= sell.amount.toFloat() / exchangeRate
+                amount = temp.toString()
+
+            }else{
+
+                when(toCurrency.code){
+                    "EUR" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.EUR!!.rate_float
+
+                    "USD" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.USD!!.rate_float
+
+                    "GBP" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.GBP!!.rate_float
+                }
+                val temp= sell.amount.toFloat() / exchangeRate
+                amount = temp.toString()
+
+            }
+        }catch (e: NullPointerException){
+            //in real app crashanalytics and report to user that some error
+        }finally {
+            view.updateExchangeResultTextView(amount)//TODO presiciob
+        }
+
     }
 
-    fun getCurrencySpinnersAdapter(): CurrencySpinnerAdapter {
-        val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection
+    private fun getCurrencySpinnerAdapter(cryptoCurrencies: Boolean = false): CurrencySpinnerAdapter {
+        val availableCurrencyUnit = AvailableCurrency(activity!!, cryptoCurrencies)//TODO injection
         return CurrencySpinnerAdapter(availableCurrencyUnit, activity!!)
     }
 

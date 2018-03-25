@@ -131,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/switchFloatingActionButton" />
 
     <Spinner
-        android:id="@+id/buySelectCurrencySpinner"
+        android:id="@+id/receiveSelectCurrencySpinner"
 
         android:layout_width="@dimen/currency_spinner_width"
         android:layout_height="0dp"
@@ -151,7 +151,7 @@
         android:layout_marginTop="@dimen/medium_margin"
         android:layout_marginStart="@dimen/big_margin"
 
-        app:layout_constraintEnd_toStartOf="@+id/buySelectCurrencySpinner"
+        app:layout_constraintEnd_toStartOf="@+id/receiveSelectCurrencySpinner"
         app:layout_constraintStart_toStartOf="@+id/receiveRectangleView"
         app:layout_constraintTop_toTopOf="@+id/receiveRectangleView" />
 
@@ -167,7 +167,7 @@
         android:layout_marginStart="@dimen/medium_margin"
 
         app:layout_constraintBottom_toBottomOf="@+id/receiveRectangleView"
-        app:layout_constraintEnd_toStartOf="@+id/buySelectCurrencySpinner"
+        app:layout_constraintEnd_toStartOf="@+id/receiveSelectCurrencySpinner"
         app:layout_constraintStart_toEndOf="@+id/receiveSymbolTextView"
         app:layout_constraintTop_toBottomOf="@+id/receiveLabelTextView" />
 
@@ -209,5 +209,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/updatedTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:text="@string/coin_desk_license"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/convertButton" />
 
 </android.support.constraint.ConstraintLayout>
