@@ -20,7 +20,7 @@ class BaseApplication : Application() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .build()
-        Realm.deleteRealm(config)
+        Realm.deleteRealm(config)//TODO remove and make override instace every time
         Realm.setDefaultConfiguration(config)
 
         mApplicationComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.BitcoinRatesRecyclerViewAdapter
@@ -32,16 +33,26 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
     }
 
     fun attachRecyclerViewAdapter(adapter: BitcoinRatesRecyclerViewAdapter){
-        val recyclerView = view.findViewById<RecyclerView>(R.id.balanceRecyclerView)//TODO rename
+        val recyclerView = view.findViewById<RecyclerView>(R.id.ratesRecyclerView)
         val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = horizontalLayoutManager
         recyclerView.adapter = adapter
     }
 
     fun attachListeners(){
-        var button = view.findViewById<Button>(R.id.convertButton)
+        val button = view.findViewById<Button>(R.id.convertButton)
         button.setOnClickListener{
             delegate?.onRefreshTapped()
         }
     }
+
+    fun updateViewAfterRatesRefresh(chartName: String, timeUpdated: String ){
+        val chartsNameTextView = view.findViewById<TextView>(R.id.chartNameTextView)//TODO remove all view by id
+        val updatedsTextView = view.findViewById<TextView>(R.id.updatedTextView)
+
+        chartsNameTextView.text = chartName
+        updatedsTextView.text = timeUpdated
+
+    }
+
 }

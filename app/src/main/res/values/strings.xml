@@ -8,8 +8,7 @@
     <string name="our_commission">Our commission is</string>
     <string name="you_converted">Jūs konvertavote </string> į
     <string name="converted_to"> į </string>
-    <string name="conversion_commission"> . Komisinis mokestis - </string>
     <string name="select_different">Please select different currencies</string>
     <string name="not_enough_funds">You don`t have enough funds</string>
-    <string name="total_commissions">Total commissions</string>
+    <string name="refresh_action_title">Refresh</string>
 </resources>

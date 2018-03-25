@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/balanceImageView"
+            android:id="@+id/ratesImageView"
 
             android:layout_width="@dimen/flag_width"
             android:layout_height="@dimen/flag_height"
@@ -18,7 +18,7 @@
 
             android:background="@drawable/flag_border"/>
         <TextView
-            android:id="@+id/balanceTextView"
+            android:id="@+id/ratesTextView"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

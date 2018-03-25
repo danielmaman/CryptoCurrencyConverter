@@ -25,6 +25,8 @@ import io.reactivex.observers.DisposableObserver
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class  MainController : BaseController() , MainViewDelegate {
@@ -60,8 +62,8 @@ class  MainController : BaseController() , MainViewDelegate {
     }
 
     fun requestRates(){
-        val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection
-        var obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()
+        val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection and refactor to kotlin way
+        var obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()//TODO loading indicator
         compositeDisposable.add(
                 obs.subscribeWith(object : DisposableObserver<BitcoinExchangeRateRaw>(){
                     override fun onComplete() {
@@ -70,11 +72,12 @@ class  MainController : BaseController() , MainViewDelegate {
                     }
 
                     override fun onNext(t: BitcoinExchangeRateRaw) {
-                        // Toast.makeText(activity,"OnNext",Toast.LENGTH_LONG).show()
 
-                        Toast.makeText(activity,"timespawn"+t.timestamp, Toast.LENGTH_LONG).show()
                         var adapter = BitcoinRatesRecyclerViewAdapter(DisplayableItemMapper.mapRawItem(t),availableCurrencyUnit)
                         view.attachRecyclerViewAdapter(adapter)
+
+                        view.updateViewAfterRatesRefresh(t.chartName, getLocalTimeFromUTC(t.time?.updated))
+
                         Timber.e("onNext")
                     }
 
@@ -83,6 +86,18 @@ class  MainController : BaseController() , MainViewDelegate {
                         Timber.e("onError")
                     }
                 }))
+    }
+
+    private fun getLocalTimeFromUTC(utcTime: String?): String{
+        if (utcTime!=null){
+            val df = SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.ENGLISH)
+            df.timeZone = TimeZone.getTimeZone("UTC")
+            val date = df.parse(utcTime)
+            val df1 = SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.ENGLISH)
+            df1.timeZone = TimeZone.getDefault()
+            return df1.format(date)
+        }
+        return ""
     }
 
     override fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit) {

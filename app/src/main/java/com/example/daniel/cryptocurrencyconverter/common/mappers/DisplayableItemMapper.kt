@@ -1,32 +1,35 @@
 package com.example.daniel.cryptocurrencyconverter.common.mappers
 
+import android.os.Build
+import android.text.Html
 import com.example.daniel.cryptocurrencyconverter.data.models.BitcoinExchangeRateRaw
-import com.example.daniel.cryptocurrencyconverter.presentation.models.DisplayableCurrency
-import org.joda.money.Money
+import com.example.daniel.cryptocurrencyconverter.presentation.main.models.DisplayableCurrency
 import timber.log.Timber
 
-class DisplayableItemMapper constructor(){
+class DisplayableItemMapper {
 
     companion object {
-        fun mapRawItem(rawItem: BitcoinExchangeRateRaw):MutableList<DisplayableCurrency>{//TODO maybe different just string type??
-//            var currencies = mutableListOf<Money>()
-//            var eur = Money.parse(rawItem.bpi?.EUR?.code+" "+ rawItem.bpi?.EUR?.rate)
-//            currencies.add(eur)
-//            var usd = Money.parse(rawItem.bpi?.USD?.code+" "+ rawItem.bpi?.USD?.rate)
-//            currencies.add(usd)
-//            var gbp = Money.parse(rawItem.bpi?.GBP?.code+" "+ rawItem.bpi?.GBP?.rate)
-//            currencies.add(gbp)
-            var currencies = mutableListOf<DisplayableCurrency>()
+        fun mapRawItem(rawItem: BitcoinExchangeRateRaw):MutableList<DisplayableCurrency>{
+
+            val currencies = mutableListOf<DisplayableCurrency>()
             try {
-                currencies.add(DisplayableCurrency(rawItem.bpi!!.EUR!!.rate,rawItem.bpi!!.EUR!!.code))
-                currencies.add(DisplayableCurrency(rawItem.bpi!!.USD!!.rate,rawItem.bpi!!.USD!!.code))
-                currencies.add(DisplayableCurrency(rawItem.bpi!!.GBP!!.rate,rawItem.bpi!!.GBP!!.code))
+                currencies.add(DisplayableCurrency(rawItem.bpi!!.EUR!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.EUR!!.symbol)))
+                currencies.add(DisplayableCurrency(rawItem.bpi!!.USD!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.USD!!.symbol)))
+                currencies.add(DisplayableCurrency(rawItem.bpi!!.GBP!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.GBP!!.symbol)))
             }catch (e: NullPointerException){
                 Timber.e(e)//TODO in production app add crash analytics
                 //TODO SHOW USER ERROR TOAST move to controller
             }
 
             return currencies
+        }
+
+        private fun getStringSymbolFromHtml(symbol :String):String{
+            return if (Build.VERSION.SDK_INT >= 24) {
+                Html.fromHtml( symbol, Html.FROM_HTML_MODE_LEGACY).toString()
+            } else {
+                Html.fromHtml( symbol ).toString()
+            }
         }
     }
 

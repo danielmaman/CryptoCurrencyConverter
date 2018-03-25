@@ -1,18 +1,12 @@
-package com.example.daniel.cryptocurrencyconverter.presentation.models
+package com.example.daniel.cryptocurrencyconverter.presentation.main.models
 
-import com.example.daniel.cryptocurrencyconverter.data.models.BitcoinExchangeRateRaw
-import org.joda.money.Money
 
-class DisplayableCurrency constructor(amount: String,currencyCode: String){
+class DisplayableCurrency constructor(amount: String, private var currencyCode: String){
 
-//    var eur: Money= Money.parse(result.bpi?.EUR?.code+result.bpi?.EUR?.rate)
-//    var usd: Money= Money.parse(result.bpi?.USD?.code+result.bpi?.USD?.rate)
-//    var gbp: Money= Money.parse(result.bpi?.USD?.code+result.bpi?.USD?.rate)
-    var amount: String = amount //"%.${2}f".format(amount)//TODO format
-    var currencyCode: String = currencyCode
+    var amount: String = amount.removeRange(amount.length-3,amount.lastIndex)
 
-//    override fun toString(): String {
-//        //super.toString()
-//        return super.toString()
-//    }
+    override fun toString(): String {
+        super.toString()
+        return "$amount $currencyCode = 1฿"
+    }
 }

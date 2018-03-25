@@ -8,13 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
-import com.example.daniel.cryptocurrencyconverter.presentation.models.DisplayableCurrency
-import kotlinx.android.synthetic.main.balance_recyclerview_items.view.*
-import org.joda.money.Money
+import com.example.daniel.cryptocurrencyconverter.presentation.main.models.DisplayableCurrency
 
-/**
- * Created by Daniel on 3/23/2018.
- */
+
 class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<DisplayableCurrency>, availableCurrency: AvailableCurrency)
                                         :RecyclerView.Adapter<BitcoinRatesRecyclerViewAdapter.BitcoinRatesViewHolder>(){
     val mBitcoinRates = bitcoinRates
@@ -30,13 +26,13 @@ class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<Disp
     }
 
     override fun onBindViewHolder(holder: BitcoinRatesViewHolder, position: Int) {
-        holder.textView.setText(mBitcoinRates[position].amount +mBitcoinRates[position].currencyCode)//TODO different type not Money
+        holder.textView.text = mBitcoinRates[position].toString()
         holder.imageView.setImageResource(mAvailableCurrency.flags[position])
     }
 
     class BitcoinRatesViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
-        var imageView: ImageView = view.findViewById(R.id.balanceImageView)//TODO rename
-        var textView: TextView = view.findViewById(R.id.balanceTextView)
+        var imageView: ImageView = view.findViewById(R.id.ratesImageView)
+        var textView: TextView = view.findViewById(R.id.ratesTextView)
 
     }
 }
