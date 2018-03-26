@@ -13,7 +13,7 @@ class DisplayableItemMapper {
 
             val currencies = mutableListOf<DisplayableCurrency>()
             try {
-                currencies.add(DisplayableCurrency(rawItem.bpi!!.EUR!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.EUR!!.symbol)))
+                currencies.add(DisplayableCurrency(rawItem.bpi!!.EUR!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.EUR!!.symbol)))//todo for easier extendability for each
                 currencies.add(DisplayableCurrency(rawItem.bpi!!.USD!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.USD!!.symbol)))
                 currencies.add(DisplayableCurrency(rawItem.bpi!!.GBP!!.rate, getStringSymbolFromHtml(rawItem.bpi!!.GBP!!.symbol)))
             }catch (e: NullPointerException){

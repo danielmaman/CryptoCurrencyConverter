@@ -25,9 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val list : List<String> = listOf("")
-        CurrencyUnit.registerCurrency("BTC",-1,8,list)
-
 
       //  (applicationContext as BaseApplication).mApplicationComponent.inject(this)
 
@@ -45,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater

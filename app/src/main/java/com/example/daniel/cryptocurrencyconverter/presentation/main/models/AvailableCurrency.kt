@@ -9,7 +9,7 @@ import java.util.ArrayList
 /**
  * Created by Daniel on 3/20/2018.
  */
-class AvailableCurrency(context: Context, cryptoCurrencies: Boolean = false) {//TODO inject
+class AvailableCurrency(context: Context, var cryptoCurrencies: Boolean = false) {//TODO inject
 
     val availableCurrencies = ArrayList<CurrencyUnit>()
     val flags = ArrayList<Int>()

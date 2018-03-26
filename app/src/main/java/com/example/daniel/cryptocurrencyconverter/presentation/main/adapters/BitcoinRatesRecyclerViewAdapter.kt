@@ -10,11 +10,15 @@ import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
 import com.example.daniel.cryptocurrencyconverter.presentation.main.models.DisplayableCurrency
 
-
-class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<DisplayableCurrency>, availableCurrency: AvailableCurrency)
+class BitcoinRatesRecyclerViewAdapter constructor(availableCurrency: AvailableCurrency , bitcoinRates: MutableList<DisplayableCurrency> = mutableListOf())
                                         :RecyclerView.Adapter<BitcoinRatesRecyclerViewAdapter.BitcoinRatesViewHolder>(){
     val mBitcoinRates = bitcoinRates
     private val mAvailableCurrency = availableCurrency
+    var mBitcoinRatesString: ArrayList<String> = arrayListOf()
+
+    constructor(availableCurrency: AvailableCurrency, bitcoinRatesString: ArrayList<String>) : this(availableCurrency){
+        mBitcoinRatesString = bitcoinRatesString
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BitcoinRatesViewHolder {
         val balanceView = LayoutInflater.from(parent.context).inflate(R.layout.balance_recyclerview_items, parent, false)
@@ -26,8 +30,14 @@ class BitcoinRatesRecyclerViewAdapter constructor(bitcoinRates: MutableList<Disp
     }
 
     override fun onBindViewHolder(holder: BitcoinRatesViewHolder, position: Int) {
-        holder.textView.text = mBitcoinRates[position].toString()
-        holder.imageView.setImageResource(mAvailableCurrency.flags[position])
+        if (mBitcoinRates.isNotEmpty()){
+            mBitcoinRatesString.add(mBitcoinRates[position].toString())
+            holder.textView.text = mBitcoinRates[position].toString()
+            holder.imageView.setImageResource(mAvailableCurrency.flags[position])
+        }else{
+            holder.textView.text = mBitcoinRatesString[position]
+            holder.imageView.setImageResource(mAvailableCurrency.flags[position])
+        }
     }
 
     class BitcoinRatesViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {

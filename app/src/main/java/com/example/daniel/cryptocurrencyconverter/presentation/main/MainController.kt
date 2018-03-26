@@ -1,9 +1,11 @@
 package com.example.daniel.cryptocurrencyconverter.presentation.main
 
+import android.os.Bundle
 import android.support.v7.app.AppCompatDelegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.base.BaseController
@@ -49,36 +51,68 @@ class  MainController : BaseController() , MainViewDelegate {
         view = MainView(activity!!, null)
         view.delegate = this
 
-        view.attachSpinnersAdapter(getCurrencySpinnerAdapter(), getCurrencySpinnerAdapter(true))
         view.attachListeners()
 
-        refreshRates()
+        if (args.isEmpty){
+            view.attachSpinnersAdapter(getCurrencySpinnerAdapter(), getCurrencySpinnerAdapter(true))
+            refreshRates()
+        }
+
 
         return view
     }
 
+    override fun getArgs(): Bundle {
+        return super.getArgs()
+    }
+
+    override fun onRestoreViewState(view: View, savedViewState: Bundle) {
+        super.onRestoreViewState(view, savedViewState)
+
+        val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection and refactor to kotlin way
+        val cryptoRates = savedViewState.getStringArrayList("recyclerViewRates")
+        val adapter = BitcoinRatesRecyclerViewAdapter(availableCurrencyUnit, cryptoRates)
+        this.view.attachRecyclerViewAdapter(adapter)
+
+        val isSellCrypto = savedViewState.getBoolean("isSellCrypto")
+        if (isSellCrypto){
+            this.view.attachSpinnersAdapter(getCurrencySpinnerAdapter(true), getCurrencySpinnerAdapter())
+        }else{
+            this.view.attachSpinnersAdapter(getCurrencySpinnerAdapter(), getCurrencySpinnerAdapter(true))
+        }
+
+        this.view.onRestoreViewState(view,savedViewState)
+    }
+
+    override fun onSaveViewState(view: View, outState: Bundle) {
+        super.onSaveViewState(view, outState)
+        args.putBoolean("check", true)
+        this.view.onSaveViewState(view,outState)
+    }
+
     fun refreshRates(){
         val availableCurrencyUnit = AvailableCurrency(activity!!)//TODO injection and refactor to kotlin way
-        val obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()//TODO loading indicator
+        val obs: Observable<BitcoinExchangeRateRaw> = repo.fetch()
         compositeDisposable.add(
                 obs.subscribeWith(object : DisposableObserver<BitcoinExchangeRateRaw>(){
                     override fun onComplete() {
-                        // Toast.makeText(activity,"onComplete",Toast.LENGTH_LONG).show()
+
                         Timber.e("onComplete")
                     }
 
                     override fun onNext(t: BitcoinExchangeRateRaw) {
+                        Toast.makeText(activity, t.timestamp.toString(), Toast.LENGTH_LONG).show()
+
                         lastBitcoinExchangeRate= t
-                        val adapter = BitcoinRatesRecyclerViewAdapter(DisplayableItemMapper.mapRawItem(t),availableCurrencyUnit)
+                        val adapter = BitcoinRatesRecyclerViewAdapter(availableCurrencyUnit, DisplayableItemMapper.mapRawItem(t))
                         view.attachRecyclerViewAdapter(adapter)
-                        val string = activity!!.resources.getString(R.string.updated)
-                        view.updateViewAfterRatesRefresh(t.chartName, string +" "+getLocalTimeFromUTC(t.time?.updated))
+                        view.updateViewAfterRatesRefresh(t.chartName, getLocalTimeFromUTC(t.time?.updated))
 
                         Timber.e("onNext")
                     }
 
                     override fun onError(e: Throwable) {
-                        //  Toast.makeText(activity,"onError",Toast.LENGTH_LONG).show()
+
                         Timber.e("onError")
                     }
                 }))
@@ -128,9 +162,8 @@ class  MainController : BaseController() , MainViewDelegate {
         }catch (e: NullPointerException){
             //in real app crashanalytics and report to user that some error
         }finally {
-            view.updateExchangeResultTextView(amount)//TODO presiciob
+            view.updateExchangeResultTextView(amount)
         }
-
     }
 
     private fun getCurrencySpinnerAdapter(cryptoCurrencies: Boolean = false): CurrencySpinnerAdapter {
@@ -145,6 +178,6 @@ class  MainController : BaseController() , MainViewDelegate {
     }
 
     override fun onDestroy() {
-        compositeDisposable.clear()
+        compositeDisposable.clear()//prevent memory leaks
     }
 }
