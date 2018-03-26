@@ -2,82 +2,73 @@ package com.example.daniel.cryptocurrencyconverter.presentation.main
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.constraint.ConstraintLayout
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
-import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.BitcoinRatesRecyclerViewAdapter
+import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.CryptoRatesRecyclerViewAdapter
 import kotlinx.android.synthetic.main.controller_main.view.*
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
-import java.util.*
 
-interface MainViewDelegate {
+interface MainViewDelegate {//TODO clean all code from comments
     fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit)
 }
 
 class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,attrs){
-     var delegate: MainViewDelegate?=null
-     var view: View = LayoutInflater.from(context).inflate(R.layout.controller_main,this)
+    var delegate: MainViewDelegate?=null
+    var view: View = LayoutInflater.from(context).inflate(R.layout.controller_main,this)
 
-//
-//var sellSpinner = view.findViewById<Spinner>(R.id.sellSelectCurrencySpinner)
-    //    var receiveSpinner = view.findViewById<Spinner>(R.id.receiveSelectCurrencySpinner)
-//    val sellEditView = view.findViewById<EditText>(R.id.sellAmountEditText)
-//    val receiveTextView = view.findViewById<TextView>(R.id.receiveAmountTextView)
-//    val recyclerView = view.findViewById<RecyclerView>(R.id.ratesRecyclerView)
-//    val swapButton = view.findViewById<FloatingActionButton>(R.id.switchFloatingActionButton)
-//    val convertButton = view.findViewById<Button>(R.id.convertButton)
-//    val chartNameTextView = view.findViewById<TextView>(R.id.chartNameTextView)//TODO remove all view by id
-//    val updatedTextView = view.findViewById<TextView>(R.id.updatedTextView)
+    val SELL_AMOUNT_KEY ="sellAmount"
+    val RECEIVE_AMOUNT_KEY ="receiveAmount"
+    val SELL_CRYPTO_BOOLEAN_KEY ="isSellCrypto"
+    val RECYCLERVIEW_RATE_KEY ="recyclerViewRates"
+    val LAST_UPDATED_KEY = "lastUpdated"
+    val CHART_NAME_KEY = "chartName"
+
     fun attachSpinnersAdapter(sellAdapter: CurrencySpinnerAdapter, receiveAdapter: CurrencySpinnerAdapter){
         sellSelectCurrencySpinner.adapter = sellAdapter
         receiveSelectCurrencySpinner.adapter = receiveAdapter
     }
 
-    fun attachRecyclerViewAdapter(adapter: BitcoinRatesRecyclerViewAdapter){
+    fun attachRecyclerViewAdapter(adapter: CryptoRatesRecyclerViewAdapter){
         val horizontalLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         ratesRecyclerView.layoutManager = horizontalLayoutManager
         ratesRecyclerView.adapter = adapter
     }
 
     fun onSaveViewState(view: View, outState: Bundle) {
-        outState.putString("sellAmount",    sellAmountEditText.text.toString())
-        outState.putString("receiveAmount", receiveAmountTextView.text.toString())
+        outState.putString(SELL_AMOUNT_KEY,    sellAmountEditText.text.toString())
+        outState.putString(RECEIVE_AMOUNT_KEY, receiveAmountTextView.text.toString())
 
         val isSellCrypto = (sellSelectCurrencySpinner.adapter as CurrencySpinnerAdapter).isCryptoCurrency()
-        outState.putBoolean("isSellCrypto", isSellCrypto)
+        outState.putBoolean(SELL_CRYPTO_BOOLEAN_KEY, isSellCrypto)
 
         val stringArrayList =  arrayListOf<String>()
-        (ratesRecyclerView.adapter as BitcoinRatesRecyclerViewAdapter).mBitcoinRatesString.forEach {
+        (ratesRecyclerView.adapter as CryptoRatesRecyclerViewAdapter).mCryptoRatesString.forEach {
             stringArrayList.add(it)
         }
 
-        outState.putStringArrayList("recyclerViewRates",stringArrayList)
-        outState.putString("lastUpdated", updatedTextView.text.toString())
-        outState.putString("chartName", chartNameTextView.text.toString())
+        outState.putStringArrayList(RECYCLERVIEW_RATE_KEY,stringArrayList)
+        outState.putString(LAST_UPDATED_KEY, updatedTextView.text.toString())
+        outState.putString(CHART_NAME_KEY, chartNameTextView.text.toString())
     }
 
     fun onRestoreViewState(view: View, savedViewState: Bundle) {
-        sellAmountEditText.setText(savedViewState.getString("sellAmount"))
-        receiveAmountTextView.text = savedViewState.getString("receiveAmount")
-        updatedTextView.text= savedViewState.getString("lastUpdated")
-        chartNameTextView.text = savedViewState.getString("chartName")
+        sellAmountEditText.setText(savedViewState.getString(SELL_AMOUNT_KEY))
+        receiveAmountTextView.text = savedViewState.getString(RECEIVE_AMOUNT_KEY)
+        updatedTextView.text= savedViewState.getString(LAST_UPDATED_KEY)
+        chartNameTextView.text = savedViewState.getString(CHART_NAME_KEY)
     }
 
-    fun attachListeners(){//TODO implement click listers
+    fun attachListeners(){
         convertButton.setOnClickListener{
-            delegate?.onExchangeDataChanged( getSellMoney(), getReceiveCurrencyUnit())
+            if (sellAmountEditText.text.toString() != ""){
+                delegate?.onExchangeDataChanged( getSellMoney(), getReceiveCurrencyUnit())
+            }
         }
 
         switchFloatingActionButton.setOnClickListener {
@@ -110,7 +101,11 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
 
     private fun getSellMoney(): BigMoney{
         val sellCurrency: String = sellSelectCurrencySpinner.adapter.getItem(sellSelectCurrencySpinner.selectedItemPosition).toString()
-        return BigMoney.parse(sellCurrency +" "+ sellAmountEditText.text )
+        return BigMoney.parse(sellCurrency +" "+ getFormatedSellAmount() )
+    }
+
+    fun getFormatedSellAmount():String{
+      return  sellAmountEditText.text.toString().replace(",","")
     }
 
     private fun getReceiveCurrencyUnit(): CurrencyUnit{

@@ -1,7 +1,7 @@
 package com.example.daniel.cryptocurrencyconverter.data
 
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
-import com.example.daniel.cryptocurrencyconverter.data.models.BitcoinExchangeRateRaw
+import com.example.daniel.cryptocurrencyconverter.data.models.CryptoExchangeRateRaw
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -9,14 +9,14 @@ import io.realm.Realm
 import timber.log.Timber
 
 
-class BitcoinRateRepository(apiClient : BitcoinExchangeApiClient) {
+class CryptoRateRepository(apiClient : BitcoinExchangeApiClient) {
 
     var mApiClient = apiClient
 
     private var realmInstance: Realm = Realm.getDefaultInstance()
-    private var realmResult: BitcoinExchangeRateRaw? = null
+    private var realmResult: CryptoExchangeRateRaw? = null
 
-    fun fetch():Observable<BitcoinExchangeRateRaw>{
+    fun fetch():Observable<CryptoExchangeRateRaw>{
         realmResult =null
         fetchDatabase()
 
@@ -26,18 +26,9 @@ class BitcoinRateRepository(apiClient : BitcoinExchangeApiClient) {
             return mApiClient.fetch().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnNext{t ->  saveToRealmDB(t)}
         }
 
-//        var exchange : Observable<BitcoinExchangeRateRaw> = Observable
-//                .concat( Observable.just(realmResult).
-//                                 .observeOn(AndroidSchedulers.mainThread())
-//                                 .subscribeOn(Schedulers.io()),
-//                        mApiClient.fetch()
-//                                 .observeOn(AndroidSchedulers.mainThread())
-//                                 .subscribeOn(Schedulers.io()))
-//                .filter { t ->  t.isUpToDate()}.take(1).firstOrError().toObservable()
-        //return null
     }
 
-    private fun saveToRealmDB(t: BitcoinExchangeRateRaw){
+    private fun saveToRealmDB(t: CryptoExchangeRateRaw){
         try {
             realmInstance.beginTransaction()
             realmInstance.insertOrUpdate(t)
@@ -49,9 +40,9 @@ class BitcoinRateRepository(apiClient : BitcoinExchangeApiClient) {
     }
     private fun fetchDatabase(){
           realmInstance.executeTransaction {
-              realmResult = realmInstance.where(BitcoinExchangeRateRaw::class.java).equalTo("chartName","Bitcoin").findFirst()
+              realmResult = realmInstance.where(CryptoExchangeRateRaw::class.java).equalTo("chartName","Bitcoin").findFirst()
               if (realmResult!=null){
-                  val tempObject = BitcoinExchangeRateRaw(realmResult!!.chartName, realmResult!!.bpi, realmResult!!.time, realmResult!!.disclaimer)
+                  val tempObject = CryptoExchangeRateRaw(realmResult!!.chartName, realmResult!!.bpi, realmResult!!.time, realmResult!!.disclaimer)
                   tempObject.timestamp = realmResult!!.timestamp
                   realmResult= tempObject
               }

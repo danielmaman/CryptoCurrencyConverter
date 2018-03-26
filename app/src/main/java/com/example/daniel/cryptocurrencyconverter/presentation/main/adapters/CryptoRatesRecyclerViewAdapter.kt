@@ -10,37 +10,37 @@ import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
 import com.example.daniel.cryptocurrencyconverter.presentation.main.models.DisplayableCurrency
 
-class BitcoinRatesRecyclerViewAdapter constructor(availableCurrency: AvailableCurrency , bitcoinRates: MutableList<DisplayableCurrency> = mutableListOf())
-                                        :RecyclerView.Adapter<BitcoinRatesRecyclerViewAdapter.BitcoinRatesViewHolder>(){
-    val mBitcoinRates = bitcoinRates
+class CryptoRatesRecyclerViewAdapter constructor(availableCurrency: AvailableCurrency, cryptoRates: MutableList<DisplayableCurrency> = mutableListOf())
+                                        :RecyclerView.Adapter<CryptoRatesRecyclerViewAdapter.CryptoRatesViewHolder>(){
+    val mCryptoRates = cryptoRates
     private val mAvailableCurrency = availableCurrency
-    var mBitcoinRatesString: ArrayList<String> = arrayListOf()
+    var mCryptoRatesString: ArrayList<String> = arrayListOf()
 
-    constructor(availableCurrency: AvailableCurrency, bitcoinRatesString: ArrayList<String>) : this(availableCurrency){
-        mBitcoinRatesString = bitcoinRatesString
+    constructor(availableCurrency: AvailableCurrency, cryptoRatesString: ArrayList<String>) : this(availableCurrency){
+        mCryptoRatesString = cryptoRatesString
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BitcoinRatesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoRatesViewHolder {
         val balanceView = LayoutInflater.from(parent.context).inflate(R.layout.balance_recyclerview_items, parent, false)
-        return BitcoinRatesViewHolder(balanceView)
+        return CryptoRatesViewHolder(balanceView)
     }
 
     override fun getItemCount(): Int {
         return mAvailableCurrency.availableCurrencies.size
     }
 
-    override fun onBindViewHolder(holder: BitcoinRatesViewHolder, position: Int) {
-        if (mBitcoinRates.isNotEmpty()){
-            mBitcoinRatesString.add(mBitcoinRates[position].toString())
-            holder.textView.text = mBitcoinRates[position].toString()
+    override fun onBindViewHolder(holder: CryptoRatesViewHolder, position: Int) {
+        if (mCryptoRates.isNotEmpty()){
+            mCryptoRatesString.add(mCryptoRates[position].toString())
+            holder.textView.text = mCryptoRates[position].toString()
             holder.imageView.setImageResource(mAvailableCurrency.flags[position])
         }else{
-            holder.textView.text = mBitcoinRatesString[position]
+            holder.textView.text = mCryptoRatesString[position]
             holder.imageView.setImageResource(mAvailableCurrency.flags[position])
         }
     }
 
-    class BitcoinRatesViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
+    class CryptoRatesViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
         var imageView: ImageView = view.findViewById(R.id.ratesImageView)
         var textView: TextView = view.findViewById(R.id.ratesTextView)
 
