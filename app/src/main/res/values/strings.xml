@@ -12,4 +12,5 @@
     <string name="not_enough_funds">You don`t have enough funds</string>
     <string name="refresh_action_title">Refresh</string>
     <string name="coin_desk_license">Powered by CoinDesk</string>
+    <string name="updated">Last time updated: </string>
 </resources>

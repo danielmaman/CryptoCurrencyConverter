@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatDelegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.base.BaseController
 import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
@@ -21,6 +22,7 @@ import io.reactivex.observers.DisposableObserver
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
 import timber.log.Timber
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -69,8 +71,8 @@ class  MainController : BaseController() , MainViewDelegate {
                         lastBitcoinExchangeRate= t
                         val adapter = BitcoinRatesRecyclerViewAdapter(DisplayableItemMapper.mapRawItem(t),availableCurrencyUnit)
                         view.attachRecyclerViewAdapter(adapter)
-
-                        view.updateViewAfterRatesRefresh(t.chartName, getLocalTimeFromUTC(t.time?.updated))
+                        val string = activity!!.resources.getString(R.string.updated)
+                        view.updateViewAfterRatesRefresh(t.chartName, string +" "+getLocalTimeFromUTC(t.time?.updated))
 
                         Timber.e("onNext")
                     }
@@ -108,7 +110,7 @@ class  MainController : BaseController() , MainViewDelegate {
                     "GBP" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.GBP!!.rate_float
                 }
                 val temp= sell.amount.toFloat() / exchangeRate
-                amount = temp.toString()
+                amount = temp.formatPrecision(8 )
 
             }else{
 
@@ -119,8 +121,8 @@ class  MainController : BaseController() , MainViewDelegate {
 
                     "GBP" ->  exchangeRate= lastBitcoinExchangeRate.bpi!!.GBP!!.rate_float
                 }
-                val temp= sell.amount.toFloat() / exchangeRate
-                amount = temp.toString()
+                val temp= sell.amount.toFloat() * exchangeRate
+                amount = temp.formatPrecision(2)
 
             }
         }catch (e: NullPointerException){
@@ -134,6 +136,12 @@ class  MainController : BaseController() , MainViewDelegate {
     private fun getCurrencySpinnerAdapter(cryptoCurrencies: Boolean = false): CurrencySpinnerAdapter {
         val availableCurrencyUnit = AvailableCurrency(activity!!, cryptoCurrencies)//TODO injection
         return CurrencySpinnerAdapter(availableCurrencyUnit, activity!!)
+    }
+
+    private fun Float.formatPrecision(fracDigits: Int): String {
+        val df = DecimalFormat()
+        df.maximumFractionDigits = fracDigits
+        return df.format(this)
     }
 
     override fun onDestroy() {

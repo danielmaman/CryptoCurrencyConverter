@@ -2,6 +2,7 @@ package com.example.daniel.cryptocurrencyconverter.presentation.main
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -39,11 +40,30 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
         recyclerView.adapter = adapter
     }
 
-    fun attachListeners(){
+    fun attachListeners(){//TODO implement click listers
         val button = view.findViewById<Button>(R.id.convertButton)
         button.setOnClickListener{
             delegate?.onExchangeDataChanged( getSellMoney(), getReceiveCurrencyUnit())
         }
+
+        val swapButton = view.findViewById<FloatingActionButton>(R.id.switchFloatingActionButton)
+        swapButton.setOnClickListener {//TODO if bitcoin sell 0.xxxxx receive 0
+            swapCurrencies()
+        }
+    }
+
+    private fun swapCurrencies(){
+        val sellSpinner = view.findViewById<Spinner>(R.id.sellSelectCurrencySpinner)
+        val receiveSpinner = view.findViewById<Spinner>(R.id.receiveSelectCurrencySpinner)
+        val tempAdapter = sellSpinner.adapter
+        sellSpinner.adapter = receiveSpinner.adapter
+        receiveSpinner.adapter = tempAdapter
+
+        val sellEditView = view.findViewById<EditText>(R.id.sellAmountEditText)
+        val receiveTextView = view.findViewById<TextView>(R.id.receiveAmountTextView)
+        val tempSell = sellEditView.text
+        sellEditView.setText(receiveTextView.text.toString())
+        receiveTextView.text = tempSell
     }
 
     fun updateViewAfterRatesRefresh(chartName: String, timeUpdated: String ){

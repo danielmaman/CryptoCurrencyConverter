@@ -9,4 +9,5 @@ class DisplayableCurrency constructor(amount: String, private var currencyCode: 
         super.toString()
         return "$amount $currencyCode = 1฿"
     }
+
 }
