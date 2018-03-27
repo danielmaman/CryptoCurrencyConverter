@@ -97,22 +97,17 @@ class  MainController : BaseController() , MainViewDelegate {
         compositeDisposable.add(
                 obs.subscribeWith(object : DisposableObserver<CryptoExchangeRateDraft>(){
                     override fun onComplete() {
-                        Timber.e("onComplete")
+                        Timber.v("onComplete")
                     }
 
                     override fun onNext(t: CryptoExchangeRateDraft) {
-                        t.currencies.forEach {
-                            if (it != null) {
-                                it.rate_float = floor(it.rate_float * 100) /100 //format till 2 decimal places also may be round
-                            }
-                        }
                         lastCryptoExchangeRate= t
-                        Toast.makeText(activity, t.timestamp.toString(),Toast.LENGTH_LONG).show()
-                        val check =DisplayableItemMapper.mapDraftItem(t)
+                       // Toast.makeText(activity, lastCryptoExchangeRate.timestamp.toString(),Toast.LENGTH_LONG).show()
+                        val check =DisplayableItemMapper.mapDraftItem(lastCryptoExchangeRate)
                         val adapter = CryptoRatesRecyclerViewAdapter(availableCurrencyUnit, check)
                         view.attachRecyclerViewAdapter(adapter)
-                        view.updateViewAfterRatesRefresh(t.chartName, getLocalTimeFromUTC(t.time?.updated))
-                        Timber.e("onNext")
+                        view.updateViewAfterRatesRefresh(lastCryptoExchangeRate.chartName, getLocalTimeFromUTC(lastCryptoExchangeRate.time?.updated))
+                        Timber.v("onNext")
                     }
 
                     override fun onError(e: Throwable) {
