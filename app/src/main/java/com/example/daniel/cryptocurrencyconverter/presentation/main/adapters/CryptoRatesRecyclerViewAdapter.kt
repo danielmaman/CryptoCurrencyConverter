@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
-import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
+import com.example.daniel.cryptocurrencyconverter.presentation.main.models.AvailableCurrency
 import com.example.daniel.cryptocurrencyconverter.presentation.main.models.DisplayableCurrency
 
 class CryptoRatesRecyclerViewAdapter constructor(availableCurrency: AvailableCurrency, cryptoRates: MutableList<DisplayableCurrency> = mutableListOf())
                                         :RecyclerView.Adapter<CryptoRatesRecyclerViewAdapter.CryptoRatesViewHolder>(){
-    val mCryptoRates = cryptoRates
+    private val mCryptoRates = cryptoRates
     private val mAvailableCurrency = availableCurrency
     var mCryptoRatesString: ArrayList<String> = arrayListOf()
 

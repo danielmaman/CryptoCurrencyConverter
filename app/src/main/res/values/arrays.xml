@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO NO HARDCODE AT REALTIME APPLICATION-->
+    <!-- NO HARDCODE AT REALTIME APPLICATION-->
     <string-array name="available_currencies">
         <item>EUR</item>
         <item>USD</item>

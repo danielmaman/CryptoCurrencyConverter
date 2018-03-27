@@ -5,7 +5,6 @@ import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class BitcoinExchangeApiClient @Inject constructor(bitcoinRateService: BitcoinRateService) {
     var mBitcoinRateService = bitcoinRateService
@@ -13,6 +12,4 @@ class BitcoinExchangeApiClient @Inject constructor(bitcoinRateService: BitcoinRa
     fun fetch(): Observable<CryptoExchangeRateRaw>{
         return mBitcoinRateService.getBitcoinRate()
     }
-
-
 }

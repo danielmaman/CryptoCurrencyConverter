@@ -25,16 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-      //  (applicationContext as BaseApplication).mApplicationComponent.inject(this)
-
-//        activityComponent = DaggerActivityComponent.builder()
-//                .mainActivityModule(MainActivityModule(this))
-//                .build()
-//        activityComponent.inject(this)
-
-
-
         router = Conductor.attachRouter(this, container_main as ViewGroup, savedInstanceState)
 
         if (!router.hasRootController()) {
@@ -42,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater

@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter.presentation.adapters
+package com.example.daniel.cryptocurrencyconverter.presentation.main.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,8 +10,7 @@ import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerImageView
 import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerTextView
-import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
-import com.google.gson.Gson
+import com.example.daniel.cryptocurrencyconverter.presentation.main.models.AvailableCurrency
 
 class CurrencySpinnerAdapter constructor(private val currencies: AvailableCurrency, val context: Context) : BaseAdapter() {
     var inflater : LayoutInflater = LayoutInflater.from(context)

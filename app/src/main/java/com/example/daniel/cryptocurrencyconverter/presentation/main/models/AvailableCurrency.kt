@@ -1,11 +1,10 @@
-package com.example.daniel.cryptocurrencyconverter.presentation.models
+package com.example.daniel.cryptocurrencyconverter.presentation.main.models
 
 import android.content.Context
 import com.example.daniel.cryptocurrencyconverter.R
 import org.joda.money.CurrencyUnit
 import timber.log.Timber
 import java.util.ArrayList
-
 
 class AvailableCurrency  constructor(context: Context, var cryptoCurrencies: Boolean = false) {
 

@@ -8,13 +8,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import com.example.daniel.cryptocurrencyconverter.R
-import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
+import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.CurrencySpinnerAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.CryptoRatesRecyclerViewAdapter
 import kotlinx.android.synthetic.main.controller_main.view.*
 import org.joda.money.BigMoney
 import org.joda.money.CurrencyUnit
 
-interface MainViewDelegate {//TODO clean all code from comments
+interface MainViewDelegate {
     fun onExchangeDataChanged(sell: BigMoney, toCurrency: CurrencyUnit)
 }
 
@@ -77,10 +77,15 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
     }
 
     private fun swapCurrencies(){
+        val sellSpinnerIndex = sellSelectCurrencySpinner.selectedItemPosition
+        val receiveSpinnerIndex = receiveSelectCurrencySpinner.selectedItemPosition
 
         val tempAdapter = sellSelectCurrencySpinner.adapter
         sellSelectCurrencySpinner.adapter = receiveSelectCurrencySpinner.adapter
         receiveSelectCurrencySpinner.adapter = tempAdapter
+
+        receiveSelectCurrencySpinner.setSelection(sellSpinnerIndex)
+        sellSelectCurrencySpinner.setSelection(receiveSpinnerIndex)
 
         val tempSell = sellAmountEditText.text
         sellAmountEditText.setText(receiveAmountTextView.text.toString())
@@ -101,10 +106,10 @@ class MainView(context: Context,attrs: AttributeSet?): ConstraintLayout(context,
 
     private fun getSellMoney(): BigMoney{
         val sellCurrency: String = sellSelectCurrencySpinner.adapter.getItem(sellSelectCurrencySpinner.selectedItemPosition).toString()
-        return BigMoney.parse(sellCurrency +" "+ getFormatedSellAmount() )
+        return BigMoney.parse(sellCurrency +" "+ getFormattedSellAmount() )
     }
 
-    fun getFormatedSellAmount():String{
+    private fun getFormattedSellAmount():String{
       return  sellAmountEditText.text.toString().replace(",","")
     }
 

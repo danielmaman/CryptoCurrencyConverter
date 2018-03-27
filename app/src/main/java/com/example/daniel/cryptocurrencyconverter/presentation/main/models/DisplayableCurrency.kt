@@ -1,13 +1,9 @@
 package com.example.daniel.cryptocurrencyconverter.presentation.main.models
 
-
-class DisplayableCurrency constructor(amount: String, private var currencyCode: String){
-
-    var amount: String = amount.removeRange(amount.length-3,amount.lastIndex)
+class DisplayableCurrency constructor(val amount: String, private var currencyCode: String){
 
     override fun toString(): String {
         super.toString()
-        return "$amount $currencyCode = 1฿"
+        return amount.substring(0,amount.length-2) +" "+ currencyCode + " = 1฿"
     }
-
 }
