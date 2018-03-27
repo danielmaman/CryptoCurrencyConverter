@@ -13,7 +13,7 @@ import com.example.daniel.cryptocurrencyconverter.common.dagger.AppModule
 import com.example.daniel.cryptocurrencyconverter.common.dagger.DaggerAppComponent
 import com.example.daniel.cryptocurrencyconverter.common.mappers.DisplayableItemMapper
 import com.example.daniel.cryptocurrencyconverter.data.models.CryptoExchangeRateRaw
-import com.example.daniel.cryptocurrencyconverter.data.CryptoRateRepository
+import com.example.daniel.cryptocurrencyconverter.data.CryptoRateApiRepository
 import com.example.daniel.cryptocurrencyconverter.presentation.adapters.CurrencySpinnerAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.main.adapters.CryptoRatesRecyclerViewAdapter
 import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
@@ -27,14 +27,13 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class  MainController : BaseController() , MainViewDelegate {
     lateinit var view: MainView
     val CHECK_IF_CONF_CHANGES ="check"
 
     @Inject
-    lateinit var repo: CryptoRateRepository
+    lateinit var repo: CryptoRateApiRepository
 
     @Inject
     lateinit var compositeDisposable: CompositeDisposable

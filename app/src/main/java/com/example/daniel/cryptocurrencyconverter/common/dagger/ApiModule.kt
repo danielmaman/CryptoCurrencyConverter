@@ -1,6 +1,6 @@
 package com.example.daniel.cryptocurrencyconverter.common.dagger
 
-import com.example.daniel.cryptocurrencyconverter.data.CryptoRateRepository
+import com.example.daniel.cryptocurrencyconverter.data.CryptoRateApiRepository
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinExchangeApiClient
 import com.example.daniel.cryptocurrencyconverter.data.api.BitcoinRateService
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -32,7 +32,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun providesRepository(apiClient : BitcoinExchangeApiClient): CryptoRateRepository {
-        return CryptoRateRepository(apiClient)
+    fun providesRepository(apiClient : BitcoinExchangeApiClient): CryptoRateApiRepository {
+        return CryptoRateApiRepository(apiClient)
     }
 }

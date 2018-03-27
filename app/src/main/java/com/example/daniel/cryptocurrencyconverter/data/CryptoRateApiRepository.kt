@@ -8,8 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import timber.log.Timber
 
-
-class CryptoRateRepository(apiClient : BitcoinExchangeApiClient) {
+class CryptoRateApiRepository(apiClient : BitcoinExchangeApiClient) {
 
     var mApiClient = apiClient
 
