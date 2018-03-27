@@ -21,7 +21,7 @@ class BaseApplication : Application() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .build()
-        Realm.deleteRealm(config)//TODO remove and make override instace every time
+       // Realm.deleteRealm(config)//TODO remove and make override instace every time
         Realm.setDefaultConfiguration(config)
 
         val list : List<String> = listOf("")
