@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatDelegate
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.daniel.cryptocurrencyconverter.base.BaseApplication
 import com.example.daniel.cryptocurrencyconverter.base.BaseController
 import com.example.daniel.cryptocurrencyconverter.common.dagger.ApiModule
@@ -92,7 +93,6 @@ class  MainController : BaseController() , MainViewDelegate {
     }
 
     fun refreshRates(){
-      //TODO refactor to kotlin way
         val obs: Observable<CryptoExchangeRateDraft> = interactor.refreshRates()
         compositeDisposable.add(
                 obs.subscribeWith(object : DisposableObserver<CryptoExchangeRateDraft>(){
@@ -107,6 +107,7 @@ class  MainController : BaseController() , MainViewDelegate {
                             }
                         }
                         lastCryptoExchangeRate= t
+                        Toast.makeText(activity, t.timestamp.toString(),Toast.LENGTH_LONG).show()
                         val check =DisplayableItemMapper.mapDraftItem(t)
                         val adapter = CryptoRatesRecyclerViewAdapter(availableCurrencyUnit, check)
                         view.attachRecyclerViewAdapter(adapter)
