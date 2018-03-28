@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter.presentation.models
+package com.example.daniel.cryptocurrencyconverter.presentation.main.models
 
 import android.content.Context
 import com.example.daniel.cryptocurrencyconverter.R
@@ -6,17 +6,20 @@ import org.joda.money.CurrencyUnit
 import timber.log.Timber
 import java.util.ArrayList
 
-/**
- * Created by Daniel on 3/20/2018.
- */
-class AvailableCurrency(context: Context) {//TODO inject
+class AvailableCurrency  constructor(context: Context, var cryptoCurrencies: Boolean = false) {
 
     val availableCurrencies = ArrayList<CurrencyUnit>()
     val flags = ArrayList<Int>()
 
     init {
-        val currenciesUnits = context.resources.getStringArray(R.array.available_currencies)
-        val currenciesFlags = context.resources.getStringArray(R.array.available_currencies_flags)
+        var currenciesUnits = context.resources.getStringArray(R.array.available_currencies)
+        var currenciesFlags = context.resources.getStringArray(R.array.available_currencies_flags)
+
+        if (cryptoCurrencies){
+            currenciesUnits = context.resources.getStringArray(R.array.available_crypto_currencies)
+            currenciesFlags = context.resources.getStringArray(R.array.available_crypto_currencies_flags)
+        }
+
         try {
             if (currenciesFlags.size == currenciesUnits.size) {
                 currenciesUnits.forEach {unit->

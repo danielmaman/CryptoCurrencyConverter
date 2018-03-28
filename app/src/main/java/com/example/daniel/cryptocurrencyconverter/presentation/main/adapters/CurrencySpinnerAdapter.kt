@@ -1,4 +1,4 @@
-package com.example.daniel.cryptocurrencyconverter.presentation.adapters
+package com.example.daniel.cryptocurrencyconverter.presentation.main.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,15 +10,9 @@ import android.widget.TextView
 import com.example.daniel.cryptocurrencyconverter.R
 import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerImageView
 import com.example.daniel.cryptocurrencyconverter.R.id.currencySpinnerTextView
+import com.example.daniel.cryptocurrencyconverter.presentation.main.models.AvailableCurrency
 
-import com.example.daniel.cryptocurrencyconverter.presentation.models.AvailableCurrency
-
-/**
- * Created by Daniel on 3/20/2018.
- */
-class CurrencySpinnerAdapter constructor(currencies : AvailableCurrency, context: Context) : BaseAdapter() {
-    val currencies = currencies
-    val context = context
+class CurrencySpinnerAdapter constructor(private val currencies: AvailableCurrency, val context: Context) : BaseAdapter() {
     var inflater : LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
@@ -27,8 +21,8 @@ class CurrencySpinnerAdapter constructor(currencies : AvailableCurrency, context
             view = inflater.inflate(R.layout.currency_spinner_items, viewGroup, false)
         }
 
-        var imageView = view?.findViewById<ImageView>(currencySpinnerImageView)
-        var textView = view?.findViewById<TextView>(currencySpinnerTextView)
+        val imageView = view?.findViewById<ImageView>(currencySpinnerImageView)
+        val textView = view?.findViewById<TextView>(currencySpinnerTextView)
 
         imageView?.setImageResource(currencies.flags[position])
         textView?.text = currencies.availableCurrencies[position].code.toUpperCase()
@@ -36,7 +30,7 @@ class CurrencySpinnerAdapter constructor(currencies : AvailableCurrency, context
         return view!!
     }
 
-    override fun getItem(position: Int): Any {
+    override fun getItem(position: Int): String {
         return currencies.availableCurrencies[position].code
     }
 
@@ -46,5 +40,8 @@ class CurrencySpinnerAdapter constructor(currencies : AvailableCurrency, context
 
     override fun getCount(): Int {
         return currencies.availableCurrencies.size
+    }
+    fun isCryptoCurrency(): Boolean{
+        return currencies.cryptoCurrencies
     }
 }

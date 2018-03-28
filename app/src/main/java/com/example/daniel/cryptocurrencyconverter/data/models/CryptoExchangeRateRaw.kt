@@ -5,12 +5,12 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 
 @RealmClass
-open class BitcoinExchangeRateRaw(
+open class CryptoExchangeRateRaw(
         @PrimaryKey
-                     public open var chartName: String = "",
-        public open var bpi: Bpi? = null,
-        public open var time: Time? = null,
-        public open var disclaimer: String = ""): RealmModel{
+        open var chartName: String = "",
+        open var bpi: Bpi? = null,
+        open var time: Time? = null,
+        open var disclaimer: String = ""): RealmModel{
 
     open var STALE_MS = (1 * 60 * 1000).toLong()//One minute in miliseconds in real app save to configurations
     open var timestamp: Long=0

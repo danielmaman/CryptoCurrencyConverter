@@ -1,7 +1,9 @@
 package com.example.daniel.cryptocurrencyconverter.data.models
 
-import io.realm.RealmObject
+import io.realm.RealmModel
+import io.realm.annotations.RealmClass
 
-open class Bpi(public open var EUR: CurrencyUnitRaw? = null,
-               public open var GBP: CurrencyUnitRaw? = null,
-               public open var USD: CurrencyUnitRaw? = null): RealmObject()
+@RealmClass
+open class Bpi(open var EUR: CurrencyUnitRaw? = null,
+               open var GBP: CurrencyUnitRaw? = null,
+               open var USD: CurrencyUnitRaw? = null): RealmModel

@@ -1,7 +1,9 @@
 package com.example.daniel.cryptocurrencyconverter.data.models
 
-import io.realm.RealmObject
+import io.realm.RealmModel
+import io.realm.annotations.RealmClass
 
-open class Time(public open var updateduk: String = "",
-                public open var updatedISO: String = "",
-                public open var updated: String = ""): RealmObject()
+@RealmClass
+open class Time(open var updateduk: String = "",
+                open var updatedISO: String = "",
+                open var updated: String = ""): RealmModel

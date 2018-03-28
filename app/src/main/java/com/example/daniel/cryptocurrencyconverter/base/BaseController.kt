@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import com.bluelinelabs.conductor.Controller
 import timber.log.Timber
 
-/**
- * Created by Daniel on 3/20/2018.
- */
 abstract class BaseController : Controller(){
 
     abstract fun onCreateControllerView(inflater: LayoutInflater, container : ViewGroup) : View

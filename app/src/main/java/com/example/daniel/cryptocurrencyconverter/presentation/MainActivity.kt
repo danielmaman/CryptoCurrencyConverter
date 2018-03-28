@@ -25,19 +25,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val list : List<String> = listOf("")
-        CurrencyUnit.registerCurrency("BTC",-1,8,list)
-
-
-      //  (applicationContext as BaseApplication).mApplicationComponent.inject(this)
-
-//        activityComponent = DaggerActivityComponent.builder()
-//                .mainActivityModule(MainActivityModule(this))
-//                .build()
-//        activityComponent.inject(this)
-
-
-
         router = Conductor.attachRouter(this, container_main as ViewGroup, savedInstanceState)
 
         if (!router.hasRootController()) {
@@ -55,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val controller = getCurrentController()
         when(item!!.itemId){
-            R.id.action_refresh -> (controller as MainController).onRefreshTapped()
+            R.id.action_refresh -> (controller as MainController).refreshRates()
         }
         return true
     }
