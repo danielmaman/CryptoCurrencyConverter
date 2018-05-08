@@ -32,5 +32,4 @@ class BaseApplication : Application() {
         mApplicationComponent.inject(this)
     }
 
-
 }
