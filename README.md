@@ -22,6 +22,10 @@ open class CurrencyUnitRaw(open var symbol: String = "",
 # REST API
 https://api.coindesk.com/v1/bpi/currentprice.json
 Returns json with real-time exchange rates.
+GET/pi - get list of coin prices
+PUT/pi{id} - updates the currency price of coin
+POST/pi - add new coin and price
+DELETE/pi{id} - deletes currency by id
 Coind desk does not let to PUT, POST or DELETE to simple user
 
 # UI
